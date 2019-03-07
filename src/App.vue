@@ -6,56 +6,20 @@
     <button @click="checkLogin">Check login</button>
     <br>
     <p v-if="this.$store.state.userName">Hello, {{this.$store.state.userName}}</p>
-    <div>
-      <h2>Register</h2>
-      <div>
-        <p>Name:</p>
-        <input type="name" name="name" v-model="register.name" @keyup.enter="dispatchRegister">
-        <p>Email:</p>
-        <input type="email" name="email" v-model="register.email" @keyup.enter="dispatchRegister">
-        <p>Password:</p>
-        <input
-          type="password"
-          name="password"
-          v-model="register.password"
-          @keyup.enter="dispatchRegister"
-        >
-        <button @click="dispatchRegister">Register</button>
-      </div>
-    </div>
-    <div>
-      <h2>Login</h2>
-      <div>
-        <p>Email:</p>
-        <input type="email" name="email" v-model="login.email" @keyup.enter="dispatchLogin">
-        <p>Password:</p>
-        <input
-          type="password"
-          name="password"
-          v-model="login.password"
-          @keyup.enter="dispatchLogin"
-        >
-        <button @click="dispatchLogin">Login</button>
-      </div>
-    </div>
+    <Register></Register>
+    <Login></Login>
   </div>
 </template>
 
 <script>
+import Register from "./components/Register";
+import Login from "./components/Login";
+
 export default {
   name: "app",
-  data() {
-    return {
-      register: {
-        name: "",
-        email: "",
-        password: ""
-      },
-      login: {
-        email: "",
-        password: ""
-      }
-    };
+  components: {
+    Register,
+    Login
   },
   mounted() {
     if (localStorage.getItem("token") !== 0) {
@@ -63,28 +27,6 @@ export default {
     }
   },
   methods: {
-    dispatchRegister() {
-      this.$store.dispatch("register", {
-        displayName: this.register.name,
-        email: this.register.email,
-        password: this.register.password
-      });
-      this.register = {
-        name: "",
-        email: "",
-        password: ""
-      };
-    },
-    dispatchLogin() {
-      this.$store.dispatch("login", {
-        email: this.login.email,
-        password: this.login.password
-      });
-      this.login = {
-        email: "",
-        password: ""
-      };
-    },
     checkLogin() {
       this.$store.dispatch("checkLogin");
     }

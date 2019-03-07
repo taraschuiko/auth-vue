@@ -32,13 +32,13 @@ export default new Vuex.Store({
     },
     login(context, data) {
       fetch(`${PROXY_URL}${BASE_URL}/login`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      })
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          }
+        })
         .then(r => r.json())
         .then(data => {
           context.commit("setUserName", data.user);
@@ -50,13 +50,13 @@ export default new Vuex.Store({
     },
     checkLogin(context) {
       fetch(`${PROXY_URL}${BASE_URL}/custom`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token")
-        }
-      })
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token")
+          }
+        })
         .then(r => r.json())
         .then(r => {
           context.commit("setIsLoggedIn", r);
