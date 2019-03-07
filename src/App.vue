@@ -4,7 +4,8 @@
       <img alt="Vue logo" src="./assets/logo.png">
     </div>
     <button @click="checkLogin">Check login</button>
-    <p>{{this.$store.state.user}}</p>
+    <br>
+    <p v-if="this.$store.state.userName">Hello, {{this.$store.state.userName}}</p>
     <div>
       <h2>Register</h2>
       <div>
@@ -55,6 +56,11 @@ export default {
         password: ""
       }
     };
+  },
+  mounted() {
+    if (localStorage.getItem("token") !== 0) {
+      this.$store.commit("setUserName", localStorage.getItem("userName"));
+    }
   },
   methods: {
     dispatchRegister() {

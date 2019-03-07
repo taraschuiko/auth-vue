@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
 const BASE_URL = "https://authorization-example.herokuapp.com";
@@ -28,40 +28,40 @@ export default new Vuex.Store({
           Accept: "application/json",
           "Content-Type": "application/json"
         }
-      })
+      });
     },
     login(context, data) {
       fetch(`${PROXY_URL}${BASE_URL}/login`, {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          }
-        })
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      })
         .then(r => r.json())
         .then(data => {
           context.commit("setUserName", data.user);
-          context.commit("setToken", data.token);
+          context.commit("setIsLoggedIn", data.token);
           localStorage.setItem("token", data.token);
+          localStorage.setItem("userName", data.user);
           console.log(data);
-
-        })
+        });
     },
     checkLogin(context) {
       fetch(`${PROXY_URL}${BASE_URL}/custom`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            token: localStorage.getItem("token")
-          }
-        })
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token")
+        }
+      })
         .then(r => r.json())
         .then(r => {
-          // context.commit("setIsLoggedIn", r);
+          context.commit("setIsLoggedIn", r);
           console.log(r);
-        })
-    },
+        });
+    }
   }
-})
+});
