@@ -9,7 +9,7 @@ const BASE_URL = "https://authorization-example.herokuapp.com";
 export default new Vuex.Store({
   state: {
     userName: "",
-    isLoggedIn: ""
+    isLoggedIn: false
   },
   mutations: {
     setUserName(state, userName) {
@@ -17,18 +17,32 @@ export default new Vuex.Store({
     },
     setIsLoggedIn(state, isLoggedIn) {
       state.isLoggedIn = isLoggedIn;
+    },
+    login(state, data) {
+      state.userName = data.user;
+      state.isLoggedIn = true;
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userName", data.user);
+    },
+    logout(state) {
+      state.userName = "";
+      state.isLoggedIn = false;
+      localStorage.removeItem("token");
+      localStorage.removeItem("userName");
     }
   },
   actions: {
     register(context, data) {
-      fetch(`${PROXY_URL}${BASE_URL}/user`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      });
+      fetch(`${PROXY_URL}${BASE_URL}/register`, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          }
+        })
+        .then(r => r.json())
+        .then(data => context.commit("login", data));
     },
     login(context, data) {
       fetch(`${PROXY_URL}${BASE_URL}/login`, {
@@ -41,15 +55,11 @@ export default new Vuex.Store({
         })
         .then(r => r.json())
         .then(data => {
-          context.commit("setUserName", data.user);
-          context.commit("setIsLoggedIn", data.token);
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("userName", data.user);
-          console.log(data);
+          context.commit("login", data);
         });
     },
     checkLogin(context) {
-      fetch(`${PROXY_URL}${BASE_URL}/custom`, {
+      fetch(`${PROXY_URL}${BASE_URL}/checklogin`, {
           method: "GET",
           headers: {
             Accept: "application/json",
@@ -59,7 +69,6 @@ export default new Vuex.Store({
         })
         .then(r => r.json())
         .then(r => {
-          context.commit("setIsLoggedIn", r);
           console.log(r);
         });
     }

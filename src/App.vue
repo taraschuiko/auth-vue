@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <div class="logo">
-      <img alt="Vue logo" src="./assets/logo.png">
-    </div>
-    <button @click="checkLogin">Check login</button>
+    <CheckLogin></CheckLogin>
+    <Logout></Logout>
     <br>
     <p v-if="this.$store.state.userName">Hello, {{this.$store.state.userName}}</p>
     <Register></Register>
@@ -14,21 +12,23 @@
 <script>
 import Register from "./components/Register";
 import Login from "./components/Login";
+import Logout from "./components/Logout";
+import CheckLogin from "./components/CheckLogin";
 
 export default {
   name: "app",
   components: {
     Register,
-    Login
+    Login,
+    Logout,
+    CheckLogin
   },
   mounted() {
     if (localStorage.getItem("token") !== 0) {
-      this.$store.commit("setUserName", localStorage.getItem("userName"));
-    }
-  },
-  methods: {
-    checkLogin() {
-      this.$store.dispatch("checkLogin");
+      this.$store.commit("login", {
+        user: localStorage.getItem("userName"),
+        token: localStorage.getItem("token")
+      });
     }
   }
 };
