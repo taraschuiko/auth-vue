@@ -1,4 +1,4 @@
-# auth-vue
+# Vue.js and Node.js authentication app
 
 ## Node.js back-end
 
