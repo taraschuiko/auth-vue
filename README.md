@@ -1,10 +1,8 @@
 # auth-vue
 
-## Back-End
+## Node.js back-end
 
-```
 [Github](https://github.com/vanyavasylyshyn/authorization-example)
-```
 
 ## Project setup
 
