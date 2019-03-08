@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <CheckLogin></CheckLogin>
-    <Logout></Logout>
-    <br>
-    <p v-if="this.$store.state.userName">Hello, {{this.$store.state.userName}}</p>
+    <div v-if="this.$store.state.isLoggedIn">
+      <p>Hello, {{this.$store.state.userName}}</p>
+      <Logout></Logout>
+    </div>
     <Register></Register>
     <Login></Login>
   </div>
@@ -13,18 +13,16 @@
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
-import CheckLogin from "./components/CheckLogin";
 
 export default {
   name: "app",
   components: {
     Register,
     Login,
-    Logout,
-    CheckLogin
+    Logout
   },
   mounted() {
-    if (localStorage.getItem("token") !== 0) {
+    if (localStorage.getItem("token")) {
       this.$store.commit("login", {
         user: localStorage.getItem("userName"),
         token: localStorage.getItem("token")
