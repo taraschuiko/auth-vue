@@ -58,7 +58,7 @@ export default new Vuex.Store({
           context.commit("login", data);
         });
     },
-    checkLogin(context) {
+    checkLogin() {
       fetch(`${PROXY_URL}${BASE_URL}/checklogin`, {
           method: "GET",
           headers: {
@@ -69,7 +69,7 @@ export default new Vuex.Store({
         })
         .then(r => r.json())
         .then(r => {
-          console.log(r);
+          alert(r);
         });
     }
   }
